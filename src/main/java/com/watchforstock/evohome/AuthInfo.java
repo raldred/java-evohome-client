@@ -1,4 +1,4 @@
-package com.watchforstock;
+package com.watchforstock.evohome;
 
 public class AuthInfo {
 private String accessToken;

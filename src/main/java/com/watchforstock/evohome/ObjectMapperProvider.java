@@ -1,4 +1,4 @@
-package com.watchforstock;
+package com.watchforstock.evohome;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 @Provider
-public class MyObjectMapperProvider implements ContextResolver<ObjectMapper> {
+public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
  
     final ObjectMapper defaultObjectMapper;
  
-    public MyObjectMapperProvider() {
+    public ObjectMapperProvider() {
         defaultObjectMapper = createDefaultMapper();
     }
  

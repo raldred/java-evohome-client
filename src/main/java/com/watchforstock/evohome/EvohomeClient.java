@@ -15,12 +15,11 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-import com.watchforstock.AuthInfo;
-import com.watchforstock.MyObjectMapperProvider;
 import com.watchforstock.evohome.status.LocationStatus;
 
 public class EvohomeClient {
 
+	private static final String MAIN_URL = "https://rs.alarmnet.com:443/TotalConnectComfort/";
 	private AuthInfo authInfo = null;
 	private static WebTarget webTarget = null;
 	private static WebTarget mainApi = null;
@@ -29,16 +28,16 @@ public class EvohomeClient {
 
 	static {
 		Client client = ClientBuilder.newClient();
-		client.register(MyObjectMapperProvider.class);
+		client.register(ObjectMapperProvider.class);
 		client.register(JacksonFeature.class);
 		webTarget = client
-				.target("https://rs.alarmnet.com:443/TotalConnectComfort/");
+				.target(MAIN_URL);
 
 		Client client2 = ClientBuilder.newClient();
 		client2.register(JacksonFeature.class);
 
 		WebTarget webTarget2 = client2
-				.target("https://rs.alarmnet.com:443/TotalConnectComfort/");
+				.target(MAIN_URL);
 
 		mainApi = webTarget2.path("WebAPI").path("emea").path("api").path("v1");
 	}
@@ -108,17 +107,11 @@ public class EvohomeClient {
 
 		Response response = builder.get();
 
-		// System.out.println(response.readEntity(String.class));
-		// return null;
 		return response.readEntity(UserInfo.class);
 
 	}
 
 	private List<Location> installation() {
-		// r =
-		// requests.get('https://rs.alarmnet.com:443/TotalConnectComfort/WebAPI/emea/api/v1/location/installationInfo?userId=%s&includeTemperatureControlSystems=True'
-		// % self.account_info['userId'], headers=self.headers)
-
 		WebTarget installation = mainApi.path("location")
 				.path("installationInfo")
 				.queryParam("userId", userInfo.getUserId())
@@ -126,15 +119,9 @@ public class EvohomeClient {
 
 		Builder builder = getBuilder(installation);
 
-		// System.out.println(builder.get().readEntity(String.class));
 		return builder.get().readEntity(new GenericType<List<Location>>() {
 		});
 
 	}
 
-	private void getSomething() {
-		// 'Authorization': 'bearer ' + self.access_token,
-		// 'applicationId': 'b013aa26-9724-4dbd-8897-048b9aada249',
-
-	}
 }
